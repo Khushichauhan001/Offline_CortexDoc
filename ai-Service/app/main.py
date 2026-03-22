@@ -69,9 +69,10 @@ async def upload_file(file: UploadFile = File(...)):
 @app.get("/query")
 def query_api(q: str):
     
-    results = query_text(q)
+    result = query_text(q)
     
     return {
         "query": q,
-        "results": results
+        "answer": result["answer"],
+        "context": result["chunks"]
     }
