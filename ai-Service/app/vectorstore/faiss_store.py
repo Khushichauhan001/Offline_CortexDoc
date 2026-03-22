@@ -21,10 +21,7 @@ def add_vectors(vectors, chunks):
     documents.extend(chunks)
 
 
-def search(query_vector, k=3):
-    """
-    similar chunks find karega
-    """
+def search(query_vector, k=5):
     query_vector = np.array([query_vector]).astype('float32')
 
     distances, indices = index.search(query_vector, k)
@@ -32,6 +29,10 @@ def search(query_vector, k=3):
     results = []
     for i in indices[0]:
         if i < len(documents):
-            results.append(documents[i])
+            text = documents[i]
+
+            #  filter short garbage
+            if len(text) > 50:
+                results.append(text)
 
     return results

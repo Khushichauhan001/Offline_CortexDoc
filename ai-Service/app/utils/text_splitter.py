@@ -1,22 +1,32 @@
-def chunk_text(text: str, chunk_size: int = 500, overlap: int = 50):
-    """
-    text ko small chunks me todta hai
+def clean_text(text: str):
+    # newline remove
+    text = text.replace("\n", " ")
     
-    chunk_size = har chunk ka size
-    overlap = thoda text repeat hoga next chunk me (context ke liye)
-    """
+    # tabs remove
+    text = text.replace("\t", " ")
+
+    # extra spaces remove
+    text = " ".join(text.split())
+
+    return text
+
+
+def chunk_text(text: str, chunk_size=200, overlap=50):
     
+    #  CLEAN FIRST (MOST IMPORTANT LINE)
+    text = clean_text(text)
+
     chunks = []
     start = 0
+
     text_length = len(text)
-    
+
     while start < text_length:
         end = start + chunk_size
-        
         chunk = text[start:end]
+
         chunks.append(chunk)
-        
-        # next chunk ke liye start move karenge (overlap ke saath)
+
         start += chunk_size - overlap
-    
+
     return chunks

@@ -20,6 +20,16 @@ def process_text(text: str):
     return chunks
 
 
+# def query_text(query: str):
+#     from app.embeddings.embedder import get_embedding
+
+#     query_vector = get_embedding(query)
+
+#     results = search(query_vector)
+
+#     return results
+
+
 def query_text(query: str):
     from app.embeddings.embedder import get_embedding
 
@@ -27,4 +37,21 @@ def query_text(query: str):
 
     results = search(query_vector)
 
-    return results
+    #BEST MATCH LINE EXTRACT
+    best_answer = ""
+
+    for chunk in results:
+        sentences = chunk.split(".")
+        
+        for sentence in sentences:
+            if any(word in sentence.lower() for word in query.lower().split()):
+                best_answer = sentence.strip()
+                break
+        
+        if best_answer:
+            break
+
+    return {
+        "chunks": results,
+        "answer": best_answer
+    }
