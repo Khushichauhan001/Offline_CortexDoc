@@ -1,18 +1,13 @@
 import faiss
 import numpy as np
 
-# global variables (simple approach for now)
-dimension = 384  # MiniLM embedding size
+dimension = 384
 index = faiss.IndexFlatL2(dimension)
 
-documents = []  # text chunks store karne ke liye
+documents = []
 
 
 def add_vectors(vectors, chunks):
-    """
-    vectors FAISS me add karega
-    chunks ko memory me store karega
-    """
     global documents
 
     vectors = np.array(vectors).astype('float32')
@@ -21,18 +16,46 @@ def add_vectors(vectors, chunks):
     documents.extend(chunks)
 
 
-def search(query_vector, k=5):
+def search(query_vector, query_text, k=5):
+    import numpy as np
+
+    # SAFETY: agar index empty hai
+    if index.ntotal == 0:
+        return []
+
     query_vector = np.array([query_vector]).astype('float32')
 
     distances, indices = index.search(query_vector, k)
 
     results = []
-    for i in indices[0]:
+
+    #  better keyword matching
+    query_words = [w.strip(".,!?") for w in query_text.lower().split()]
+
+    for idx, i in enumerate(indices[0]):
+
+        #  safety check
         if i < len(documents):
-            text = documents[i]
 
-            #  filter short garbage
-            if len(text) > 50:
-                results.append(text)
+            chunk = documents[i]
 
-    return results
+            #  keyword score improve
+            chunk_words = chunk.lower()
+
+            keyword_score = sum(
+                1 for word in query_words if word in chunk_words
+            )
+
+            #  vector score
+            vector_score = 1 / (1 + distances[0][idx])
+
+            # weighted score (important)
+            final_score = (2 * keyword_score) + vector_score
+
+            results.append((chunk, final_score))
+
+    #  sort
+    results.sort(key=lambda x: x[1], reverse=True)
+
+    #  return only chunks
+    return [r[0] for r in results]
