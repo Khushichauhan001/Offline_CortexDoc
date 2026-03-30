@@ -1,0 +1,104 @@
+╔══════════════════════════════════════════════════════════════╗
+║               CortexDoc - QUICK START GUIDE                  ║
+╚══════════════════════════════════════════════════════════════╝
+
+📋 REQUIREMENTS
+   ✓ Python 3.8+ with venv
+   ✓ Node.js 16+ with npm
+
+─────────────────────────────────────────────────────────────────
+
+🚀 START THE APPLICATION
+
+   TERMINAL 1 - Backend:
+   ┌────────────────────────────────────────────────────────────┐
+   │  cd ai-Service                                             │
+   │  ./start_server.sh                                         │
+   └────────────────────────────────────────────────────────────┘
+   
+   Wait for: "Uvicorn running on http://127.0.0.1:8000"
+
+   TERMINAL 2 - Frontend:
+   ┌────────────────────────────────────────────────────────────┐
+   │  cd client                                                 │
+   │  npm run dev                                               │
+   └────────────────────────────────────────────────────────────┘
+   
+   Wait for: "Local: http://localhost:3000/"
+
+─────────────────────────────────────────────────────────────────
+
+🌐 OPEN IN BROWSER
+   
+   → http://localhost:3000
+
+─────────────────────────────────────────────────────────────────
+
+📤 UPLOAD FILES
+
+   1. Click "Upload Files" button (left sidebar)
+   2. Select files (PDF, TXT, DOCX, Images)
+   3. Multiple files OK!
+   4. Wait for success notification
+
+─────────────────────────────────────────────────────────────────
+
+💬 ASK QUESTIONS
+
+   1. Type question in input box
+   2. Press Enter or click Send
+   3. Watch AI type response
+   4. Ask more questions!
+
+─────────────────────────────────────────────────────────────────
+
+✨ SUPPORTED FILE TYPES
+
+   ✓ PDF       (.pdf)
+   ✓ Text      (.txt)
+   ✓ Word      (.docx) - needs: pip install python-docx
+   ✓ Images    (.jpg, .png) - needs: pip install pytesseract pillow
+                                + sudo apt install tesseract-ocr
+
+─────────────────────────────────────────────────────────────────
+
+🎨 FEATURES
+
+   ✓ Multiple file upload
+   ✓ Dark/light mode toggle
+   ✓ Typing animations
+   ✓ Chat history
+   ✓ File management
+   ✓ Offline AI processing
+
+─────────────────────────────────────────────────────────────────
+
+🐛 TROUBLESHOOTING
+
+   Backend won't start?
+   → Check: source venv/bin/activate
+   → Run: pip install -r requirements.txt
+
+   Upload fails?
+   → Check backend is running at port 8000
+   → Verify uploads/ directory exists
+
+   No response to queries?
+   → Make sure you uploaded files first
+   → Check backend terminal for errors
+
+   Frontend can't connect?
+   → Verify backend URL: http://127.0.0.1:8000
+   → Check CORS is enabled
+
+─────────────────────────────────────────────────────────────────
+
+📚 FULL DOCUMENTATION
+   
+   START_HERE.md       - Complete setup guide
+   UPDATES_SUMMARY.md  - What's new & fixed
+   client/README.md    - Frontend details
+
+─────────────────────────────────────────────────────────────────
+
+🎉 ENJOY USING CORTEXDOC!
