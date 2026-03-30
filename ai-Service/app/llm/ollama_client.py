@@ -4,14 +4,17 @@ def generate_answer(context, query):
     url = "http://localhost:11434/api/generate"
 
     prompt = f"""
-You are a strict QA system.
+You are a strict RAG-based QA system.
 
 Rules:
-- Answer ONLY from the context.
-- Answer in 1-2 lines.
-- Do NOT explain.
-- Do NOT add extra text.
-- If answer not present → say EXACTLY: Not found in document.
+- Answer strictly ONLY using the provided context.
+- If answer not found, say EXACTLY: Not found in document.
+- Explain in simple and clear terms.
+- Keep answer concise but meaningful.
+- Do not use outside knowledge.
+- Use bullet points if needed.
+- Include a simple example if possible.
+-  Do NOT include phrases like "Context", "Follow up", "Explanation".
 
 Context:
 {context}
@@ -35,6 +38,3 @@ Answer:
     data = response.json()
 
     return data.get("response", "").strip()
-
-
-
