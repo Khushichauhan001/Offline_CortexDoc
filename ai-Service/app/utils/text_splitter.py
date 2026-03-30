@@ -1,3 +1,4 @@
+import re
 def clean_text(text: str):
     text = text.replace("\n", " ")
     text = text.replace("\t", " ")
@@ -9,8 +10,7 @@ def chunk_text(text: str):
     text = clean_text(text)
 
     # split by paragraph (better than fixed size)
-    paragraphs = text.split("  ")
-
+    paragraphs = re.split(r'(?<=[.?!])\s+', text)
     chunks = []
     current_chunk = ""
 

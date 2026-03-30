@@ -4,11 +4,14 @@ def generate_answer(context, query):
     url = "http://localhost:11434/api/generate"
 
     prompt = f"""
-You are a helpful AI assistant.
+You are a strict QA system.
 
-Strictly answer from the given context.
-Do not add extra information.
-If answer is not present, say "Not found in document".
+Rules:
+- Answer ONLY from the context.
+- Answer in 1-2 lines.
+- Do NOT explain.
+- Do NOT add extra text.
+- If answer not present → say EXACTLY: Not found in document.
 
 Context:
 {context}
@@ -19,14 +22,19 @@ Question:
 Answer:
 """
 
-    response = requests.post(url, json={
-        "model": "phi3",   #  yaha phi3 use ho raha
-        "prompt": prompt,
-        "stream": False
-    },
-    timeout=60 
+    response = requests.post(
+        url,
+        json={
+            "model": "phi3",
+            "prompt": prompt,
+            "stream": False
+        },
+        timeout=120
     )
 
     data = response.json()
 
-    return data["response"]
+    return data.get("response", "").strip()
+
+
+

@@ -18,80 +18,66 @@ def process_text(text: str):
     return chunks
 
 
+
+def clean_answer(ans):
+    ans = ans.strip()
+
+    # remove garbage / long outputs
+    if not ans or len(ans.split()) > 80:
+        return "Not found in document"
+
+    # handle model hallucination
+    if "not found" in ans.lower():
+        return "Not found in document"
+
+    return ans
+
 def query_text(query: str):
     from app.embeddings.embedder import get_embedding
     from app.vectorstore.faiss_store import search
-    import re
 
-    
+    # Step 1: query embedding
     query_vector = get_embedding(query)
+
+    # Step 2: search
     results = search(query_vector, query)
-     
-    
-    best_chunks = results[:3]
-    best_answer = ""
 
+    if not results:
+        return {
+            "answer": "Not found in document",
+            "chunks": []
+        }
 
-# “I improved retrieval quality by aggregating relevant sentences from multiple top-ranked chunks instead of relying on a single chunk.”
+    # ✅ IMPORTANT FIX: only top 2 chunks
+    best_chunks = results[:2]
 
-    for chunk in best_chunks:
-        sentences = re.split(r'(?<=[.!?]) +', chunk)
+    print("Retrieved Chunks:", best_chunks)
 
-        # selected_sentences = []
+    # Step 3: clean context
+    context = "\n\n".join(best_chunks)
 
-        all_selected_sentences = []
-
-        for chunk in best_chunks:
-            sentences = re.split(r'(?<=[.!?]) +', chunk)
-        
-            for sentence in sentences:
-                query_words = set(query.lower().split())
-                sentence_words = set(sentence.lower().split())
-
-                #  at least 2 words match hone chahiye
-                if len(query_words & sentence_words) >=1:
-    
-                 #  chhote garbage sentences skip karo
-                    if len(sentence) > 300:
-                        continue
-
-                    all_selected_sentences.append(sentence.strip())
-        
-        #  duplicate remove
-        unique_sentences = list(dict.fromkeys(all_selected_sentences))
-        
-        #  top 5 sentences combine
-        # best_answer = " ".join(unique_sentences[:5])
-         #  structured answer
-        formatted_answer = ""
-        
-        for i, sentence in enumerate(unique_sentences[:5], start=1):
-            formatted_answer += f"{i}. {sentence.strip()} "
-        
-        best_answer = formatted_answer.strip()
-
-        best_answer = best_answer.replace("  ", " ")
-
-        if best_answer:
-            best_answer = best_answer[0].upper() + best_answer[1:]
-    # fallback
-    if not best_answer and best_chunks:
-        sentences = re.split(r'(?<=[.!?]) +', best_chunks[0])
-        best_answer = " ".join(sentences[:2])
-
-    # return {
-    #     "answer": best_answer,
-    #     "chunks": best_chunks
-    # }
-
-    context = " ".join(best_chunks)
-
+    # Step 4: LLM call
     try:
-        final_answer = generate_answer(context, query)
-    except:
-        final_answer = best_answer  # fallback
-    
+        raw_answer = generate_answer(context, query)
+        print("LLM RAW:", raw_answer)
+
+        final_answer = clean_answer(raw_answer)
+
+    except Exception as e:
+        print("ERROR:", e)
+        final_answer = "Answer not available"
+
     return {
         "answer": final_answer,
         "chunks": best_chunks
     }
+
+
+
+
+
+
+
+
+    # multiple files cannot be uploaded and also it donot give the correct response ,ans is also not structed , and donot right , also if it donot know any ans then also it give , if ques is out of  pdf provided and simply say sorry i donot know the exavt ans 
+    # ./start_server.sh
