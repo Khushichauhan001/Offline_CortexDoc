@@ -1,72 +1,80 @@
-# CortexDoc – Offline AI Document Q&A System
+#  Offline CortexDoc AI
 
-CortexDoc is an **offline AI-powered document question-answering system** that allows users to upload files (PDF, TXT, DOCX, Images) and ask questions based strictly on the document content.
-
-It uses a **Retrieval-Augmented Generation (RAG)** pipeline with local embeddings and LLMs to ensure **privacy, speed, and zero API cost**.
+>  A privacy-focused offline AI system to chat with your documents using local LLMs — featuring a **one-click setup** for seamless execution.
 
 ---
 
-##  Features
+## ⚡ One-Click Setup (Highlight Feature)
 
-* 📄 Upload multiple documents (PDF, TXT, DOCX, Images)
-* 🔍 Ask questions based on document content
-* 🧠 Uses **local embeddings + FAISS vector database**
-* 🤖 Runs with **offline LLM (Ollama)**
-* 📌 Source highlighting (file + page number)
-* ⚡ Fast retrieval with semantic search
-* 🔒 Fully offline & secure (no external API)
-* 🎨 Modern React UI with chat interface
+> 💡 No manual setup. No complex installation. Just one command and you're ready!
+
+###  Linux /  Mac
+
+```bash
+./start.sh
+```
+
+###  Windows
+
+```bash
+start.bat
+```
+
+### 🔥 What this script does automatically:
+
+*  Installs Ollama (if not installed)
+*  Downloads the LLM model (phi3)
+*  Sets up Python virtual environment
+*  Installs backend dependencies
+*  Starts FastAPI backend server
+*  Installs frontend dependencies
+*  Launches React application
+
+👉  **Everything runs automatically — no manual configuration needed**
+
+---
+
+
+
+## ✨ Features
+
+* 📄 Chat with PDF, DOCX, TXT documents
+* ⚡ Fully offline after setup
+* 🔍 Source-based answers with document references
+* 🧠 Local LLM (Ollama - phi3)
+* ⚡ Fast retrieval using FAISS
+* 🎯 Clean and responsive UI
+* 🚀 One-click full system startup
+* 🔒 Privacy-first (no data leaves your machine)
 
 ---
 
 ##  Tech Stack
 
-### 🔹 Backend
-
-* FastAPI
-* FAISS (Vector Database)
-* Sentence Transformers (Embeddings)
-* Ollama (LLM - local)
-* PyPDF2 / OCR (for document parsing)
-
-### 🔹 Frontend
-
-* React.js
-* Tailwind CSS
-* Framer Motion
-* Axios
+* **Frontend:** React + Vite
+* **Backend:** FastAPI
+* **Vector DB:** FAISS
+* **Embeddings:** Sentence Transformers
+* **LLM:** Ollama (phi3)
 
 ---
 
-## How It Works (RAG Pipeline)
+## ⚙️ How It Works
 
-1. **Upload Document**
+1. Upload your document
+2. Text is chunked
+3. Embeddings are generated
+4. Stored in FAISS
+5. Query retrieves relevant chunks
+6. LLM generates answer
 
-   * File is parsed (PDF/DOCX/TXT/Image)
+---
 
-2. **Text Chunking**
+##  Important Notes
 
-   * Document is split into smaller chunks
-
-3. **Embeddings**
-
-   * Each chunk is converted into vector representation
-
-4. **Vector Storage**
-
-   * Stored in FAISS database
-
-5. **User Query**
-
-   * Query is converted into embedding
-
-6. **Similarity Search**
-
-   * Top relevant chunks are retrieved
-
-7. **LLM Generation**
-
-   * Answer generated strictly from retrieved context
+* 🌐 Internet required only for **first-time setup (model download)**
+* ⚡ After setup, app works **completely offline**
+* 🧠 Model size ~4GB
 
 ---
 
@@ -75,107 +83,24 @@ It uses a **Retrieval-Augmented Generation (RAG)** pipeline with local embedding
 ```
 Offline_CortexDoc/
 │
-├── ai-Service/              # Backend (FastAPI)
-│   ├── app/
-│   │   ├── loaders/         # File loaders
-│   │   ├── embeddings/      # Embedding logic
-│   │   ├── vectorstore/     # FAISS logic
-│   │   ├── rag/             # RAG pipeline
-│   │   └── main.py          # API entry point
-│
-├── client/                  # Frontend (React)
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   └── services/
-│
+├── ai-Service/        # Backend (FastAPI)
+├── client/            # Frontend (React)
+├── start.sh           # One-click setup (Linux/Mac)
+├── start.bat          # One-click setup (Windows)
 └── README.md
 ```
 
 ---
 
-## ⚙️ Installation & Setup
 
-### 🔹 1. Clone the Repository
 
-```bash
-git clone https://github.com/your-username/cortexdoc.git
-cd cortexdoc
-```
-
----
-
-### 🔹 2. Backend Setup
-
-```bash
-cd ai-Service
-
-python -m venv venv
-source venv/bin/activate   # (Linux/Mac)
-venv\Scripts\activate      # (Windows)
-
-pip install -r requirements.txt
-```
-
----
-
-### 🔹 3. Install Ollama (Local LLM)
-
-```bash
-ollama pull phi3
-```
-
----
-
-### 🔹 4. Run Backend
-
-```bash
-uvicorn app.main:app --reload
-```
-
----
-
-### 🔹 5. Frontend Setup
-
-```bash
-cd client
-npm install
-npm run dev
-```
-
----
-
-## 🌐 Usage
-
-1. Open: `http://localhost:3000`
-2. Upload a document
-3. Ask questions like:
-
-   * *"What is SQL?"*
-   * *"Explain frameworks in Java"*
-4. Get answers with **source references**
-
----
-
-## 💡 Key Highlights
-
-* Works **completely offline**
-* No API cost
-* Privacy-focused
-* Real-world RAG implementation
-* Production-ready architecture
-
----
-
-## 👨‍💻 Author
+## Author
 
 **Khushi Chauhan**
- Software Developer
+Aspiring Software Developer | AI + Full Stack Enthusiast
 
 ---
 
-## ⭐ Contribute
+## ⭐ Support
 
-Pull requests are welcome!
-Feel free to fork and improve the project.
-
+If you found this useful, consider giving it a ⭐ on GitHub!
