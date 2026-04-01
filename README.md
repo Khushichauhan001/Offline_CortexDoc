@@ -1,6 +1,6 @@
 #  Offline CortexDoc AI
 
->  A privacy-focused offline AI system to chat with your documents using local LLMs — featuring a **one-click setup** for seamless execution.
+ A privacy-focused offline RAG Based system to chat with your documents using local LLMs — featuring a **one-click setup** for seamless execution.
 
 ---
 
