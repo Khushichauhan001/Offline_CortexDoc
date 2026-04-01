@@ -35,6 +35,7 @@ export default function AppPage() {
         id: aiMessageId,
         role: 'ai',
         content: response.answer || response.response || 'No response received.',
+        sources: response.sources || [] 
       }
       setTypingMessageId(aiMessageId)
       setMessages((prev) => [...prev, aiMessage])

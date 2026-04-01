@@ -112,7 +112,6 @@ def query_api(q: str):
     result = query_text(q)
     
     return {
-        "query": q,
-        "answer": result["answer"],
-        "context": result["chunks"]
-    }
+    "answer": result["answer"],
+    "sources": result.get("sources", [])
+}

@@ -1,12 +1,11 @@
-
 from app.utils.text_splitter import chunk_text
 from app.embeddings.embedder import get_embeddings
 from app.vectorstore.faiss_store import add_vectors, search
 from app.llm.ollama_client import generate_answer
-import re 
+import re
+
 
 def process_text(text: str):
-   
     chunks = chunk_text(text)
 
     print("Total chunks:", len(chunks))
@@ -16,7 +15,6 @@ def process_text(text: str):
     add_vectors(vectors, chunks)
 
     return chunks
-
 
 
 def clean_answer(ans):
@@ -32,6 +30,7 @@ def clean_answer(ans):
 
     return ans
 
+
 def query_text(query: str):
     from app.embeddings.embedder import get_embedding
     from app.vectorstore.faiss_store import search
@@ -45,18 +44,17 @@ def query_text(query: str):
     if not results:
         return {
             "answer": "Not found in document",
-            "chunks": []
+            "sources": []
         }
 
-    # ✅ IMPORTANT FIX: only top 2 chunks
-    best_chunks = results[:2]
-
+    # Step 3: take top chunks
+    best_chunks = results[:3]
     print("Retrieved Chunks:", best_chunks)
 
-    # Step 3: clean context
+    # Step 4: build context
     context = "\n\n".join(best_chunks)
 
-    # Step 4: LLM call
+    # Step 5: LLM call
     try:
         raw_answer = generate_answer(context, query)
         print("LLM RAW:", raw_answer)
@@ -67,17 +65,15 @@ def query_text(query: str):
         print("ERROR:", e)
         final_answer = "Answer not available"
 
+    # Step 6: return with sources
     return {
-        "answer": final_answer,
-        "chunks": best_chunks
-    }
-
-
-
-
-
-
-
-
-    # multiple files cannot be uploaded and also it donot give the correct response ,ans is also not structed , and donot right , also if it donot know any ans then also it give , if ques is out of  pdf provided and simply say sorry i donot know the exavt ans 
-    # ./start_server.sh
+    "answer": final_answer,
+    "sources": [
+        {
+            "text": r,
+            "file": "Unknown",
+            "page": "N/A"
+        }
+        for r in best_chunks
+    ]
+}

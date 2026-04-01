@@ -42,6 +42,20 @@ export default function ChatMessage({ message, isTyping = false }) {
             message.content
           )}
         </div>
+
+
+        {/*  Sources */}
+         {!isUser && message.sources && message.sources.length > 0 && (
+           <div className="mt-2 space-y-1">
+             {message.sources.map((src, i) => (
+               <div key={i} className="text-xs text-gray-400">
+                 📄 {src.file} (Page {src.page})
+               </div>
+             ))}
+           </div>
+         )}
+
+
       </div>
     </motion.div>
   )
