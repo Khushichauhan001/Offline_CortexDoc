@@ -1,56 +1,30 @@
-# ------------------------
-# Node.js
-# ------------------------
+
 node_modules/
 client/node_modules/
 server/node_modules/
 
-# ------------------------
-# Python
-# ------------------------
 venv/
 ai-service/venv/
 __pycache__/
 *.pyc
 
-# ------------------------
-# Environment files
-# ------------------------
 .env
 ai-service/.env
 client/.env
 server/.env
 
-# ------------------------
-# Logs
-# ------------------------
 *.log
 
-# ------------------------
-# OS files
-# ------------------------
 .DS_Store
 Thumbs.db
 
-# ------------------------
-# VS Code
-# ------------------------
 .vscode/
 
-# ------------------------
-# Build folders
-# ------------------------
 dist/
 build/
 
-# ------------------------
-# AI / Vector DB files
-# ------------------------
 *.faiss
 *.index
 
-# ------------------------
-# Uploads (optional)
-# ------------------------
 uploads/
 ai-service/uploads/
